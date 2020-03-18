@@ -1,0 +1,15 @@
+{
+  "name": "learning-mongo",
+  "version": "1.0.0",
+  "description": "Code relating to the Linkedin Skills path: Becoming a MERN Stack Javascript developer\r https://www.linkedin.com/learning/paths/become-a-mern-stack-javascript-developer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/hapi": "^19.1.1",
+    "mongodb": "^3.5.5"
+  }
+}
