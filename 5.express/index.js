@@ -12,21 +12,40 @@ app.use("/images", express.static("images"));
 
 app.listen(PORT, () => {
   console.log(`Your server is running on port ${PORT}`);
-  console.log(data[0]);
 });
 
 app.get("/", (req, res) => {
   res.json(data);
 });
 
-app.post("/newItem", (req, res) => {
-  res.send(`a post request with /newItem route on port ${PORT}`);
-});
+app.get(
+  "/item/:id",
+  (req, res, next) => {
+    // this is the middleware that pulls the data
+    let user = Number(req.params.id);
+    // middleware that uses request obj
+    console.log(`Request from ${req.originalUrl}`);
+    console.log(`Request type ${req.method}`);
 
-app.put("/updateItem", (req, res) => {
-  res.send(`a put request with /updateItem route on port ${PORT}`);
-});
+    // end middleware
+    res.send(data[user]);
 
-app.delete("/deleteItem", (req, res) => {
-  res.send(`a delete request with /deleteItem route on port ${PORT}`);
-});
+    // finish first function, go to second
+    next();
+  },
+  (req, res) => {
+    console.log("Did you get the right data?");
+  }
+);
+
+app
+  .route("/item")
+  .get((req, res) => {
+    res.send(`a post request with /newItem route on port ${PORT}`);
+  })
+  .put((req, res) => {
+    res.send("a put request");
+  })
+  .delete((req, res) => {
+    res.send(`a delete request with /item route on port ${PORT}`);
+  });
