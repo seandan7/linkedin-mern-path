@@ -50,7 +50,8 @@ export const updateContact = (req, res) => {
 };
 
 export const deleteContact = (req, res) => {
-  Contact.remove(
+  // change remove to deleteOne
+  Contact.deleteOne(
     {
       _id: req.params.contactID
     },
