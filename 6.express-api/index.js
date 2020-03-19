@@ -23,6 +23,9 @@ app.use(
 );
 app.use(bodyParser.json());
 
+//serving static files
+app.use(express.static("public"));
+
 routes(app);
 
 app.get("/", (req, res) => {
