@@ -57,6 +57,7 @@ app.get(
 app
   .route("/item")
   .get((req, res) => {
+    throw new Error();
     //res.send(`a post request with /newItem route on port ${PORT}`);
   })
   .put((req, res) => {
