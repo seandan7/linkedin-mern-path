@@ -1,0 +1,33 @@
+{
+  "name": "7.mongo-node-react",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node server.js --ignore public/",
+    "dev": "webpack -wd"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "babel-eslint": "^10.1.0",
+    "babel-loader": "^8.0.6",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "mongodb": "^3.5.5",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/node": "^7.8.7",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-react": "^7.8.3",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
+    "nodemon": "^2.0.2"
+  }
+}
