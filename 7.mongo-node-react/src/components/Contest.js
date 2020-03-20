@@ -7,7 +7,11 @@ class Contest extends React.Component {
   }
   handleSubmit = (event) => {
     event.preventDefault();
-    this.props.addName(this.refs.newNameInput.value, this.props._id);
+    if(this.refs.newNameInput.value){
+      this.props.addName(this.refs.newNameInput.value, this.props._id);
+    } else{
+      alert("You must submit a name")
+    }
     this.refs.newNameInput.value = '';
   }
   render() {
