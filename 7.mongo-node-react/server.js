@@ -5,12 +5,13 @@ import sassMiddleware from "node-sass-middleware";
 import path from "path";
 import bodyParser from "body-parser";
 import serverRender from './serverRender';
+import App from "./src/components/App";
 
 console.log(sassMiddleware);
 
 const app = express();
 
-
+app.use(bodyParser.json());
 app.use(
   sassMiddleware({
     src: path.join(__dirname, "sass"),
@@ -31,7 +32,10 @@ app.get(["/", '/contest/:contestId' ], (req, res) => {
       initialMarkup
     });
   })
-  .catch(console.error);
+  .catch(error => {
+    res.status(404).send("Bad request");
+    console.error(error);
+  });
  
 });
 

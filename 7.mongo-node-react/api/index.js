@@ -3,6 +3,7 @@ import {MongoClient, ObjectID} from 'mongodb';
 import assert from 'assert';
 import config from '../config';
 
+
 var mdb;
 MongoClient.connect(config.mongodbUri, (err, db) => {
   assert.equal(null, err);
@@ -53,6 +54,37 @@ router.get('/names/:nameIds', (req, res) => {
       }
       names[name._id] = name;
     });
+});
+
+
+router.post('/names', (req, res) => {
+  const contestId = ObjectID(req.body.contestId);
+  const name = req.body.newName;
+  // validation
+  
+  // insert name
+  mdb.collection('names').insertOne({name}).then((result) => {
+    mdb.collection('contests').findAndModify(
+      {_id: contestId},
+      [],
+      {$push: {
+        nameIds: result.insertedId
+      }},
+      {new: true}
+    ).then(doc => {
+      res.send({
+        updatedContest: doc.value,
+        newName: {
+          _id: result.insertedId,
+          name
+        }
+      })
+    }).catch(err => {
+      console.log(err);
+      res.status(404).send('Bad request');
+    })
+  })
+
 });
 
 export default router;
