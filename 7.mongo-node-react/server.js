@@ -22,8 +22,9 @@ app.use(bodyParser.json());
 
 app.set("view engine", "ejs");
 
-app.get("/", (req, res) => {
-  serverRender()
+app.get(["/", '/contest/:contestId' ], (req, res) => {
+  
+  serverRender(req.params.contestId)
   .then(({initialMarkup, initialData}) => {
     res.render("index", {
       initialData,

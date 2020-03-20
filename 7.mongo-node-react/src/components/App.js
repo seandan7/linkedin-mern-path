@@ -1,4 +1,5 @@
 import React from "react";
+import propTypes from 'prop-types';
 import Header from "./Header";
 import ContestList from './ContestList';
 import Contest from './Contest';
@@ -7,21 +8,32 @@ import * as api from '../api'
 const pushState = (obj, url) => {
   return window.history.pushState(obj, '', url);
 }
+
+const onPopState = handler => {
+  window.onpopstate = handler;
+}
 class App extends React.Component {
   // class property
   constructor(props) {
     super(props);
-    this.state = {
-      pageHeader: "Naming Contests",
-      contests: this.props.initialContests,
-      currentContestID: null
-    };
+    this.state = this.props.initialData;
   }
   componentDidMount() {
-    
+    onPopState((event) => {
+      this.setState({
+        currentContestId: (event.state || {}).currentContestId
+      })
+    })
   }
   componentWillUnmount() {
-    
+    onPopState(null);
+  }
+  pageHeader() {
+    if (this.state.currentContestId) {
+      return this.currentContest().contestName;
+    }
+
+    return 'Naming Contests';
   }
   fetchContest = (contestId) => {
     pushState(
@@ -30,7 +42,6 @@ class App extends React.Component {
     );
     api.fetchContest(contestId).then(contest => {
       this.setState({
-        pageHeader: contest.contestName,
         currentContestId: contest.id,
         contests: {
           ...this.state.contests,
@@ -39,9 +50,18 @@ class App extends React.Component {
         }
       });
     });
-    // lookup the contest
-    // this.state.contests[currentContestID]
-   
+  }
+  fetchContestList = () => {
+    pushState({
+      currentContestId: null},
+      '/'
+    );
+    api.fetchContestList().then(contests => {
+      this.setState({
+        currentContestId: null,
+        contests
+      })
+    });
   }
   currentContest() {
     return this.state.contests[this.state.currentContestId];
@@ -49,7 +69,7 @@ class App extends React.Component {
   currentContent() {
     if (this.state.currentContestId) {
       console.log("Is single");
-      return <Contest {...this.currentContest()} />
+      return <Contest contestListClick={this.fetchContestList} {...this.currentContest()} />
     } else {
       console.log("Is multi");
       return <ContestList
@@ -57,14 +77,21 @@ class App extends React.Component {
           contests={this.state.contests} />;
     }
   }
+  handleBackClick() {
+
+  }
   render() {
     return (
       <div className="App">
-        <Header message={this.state.pageHeader} />
+        <Header message={this.pageHeader()} />
         {this.currentContent()}
       </div>
     );
   }
+}
+
+App.propTypes = {
+  initialData : propTypes.object.isRequired
 }
 
 export default App;

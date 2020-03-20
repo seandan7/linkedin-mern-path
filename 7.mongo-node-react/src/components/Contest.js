@@ -5,13 +5,19 @@ class Contest extends React.Component {
     render() {
         return (
             <div className="Contest">
-                {this.props.description}
+                <div className="contest-description">
+                    {this.props.description}
+                </div>
+                <div onClick={this.props.contestListClick} className="home link link mt-3 bold">
+                    <u>All Contests</u>
+                </div>
             </div>
         )
     }
 }
 
 Contest.propTypes = {
-    description: propTypes.string.isRequired
+    description: propTypes.string.isRequired,
+    contestListClick: propTypes.func.isRequired
 }
 export default Contest;
