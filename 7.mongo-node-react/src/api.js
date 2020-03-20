@@ -12,3 +12,7 @@ export const fetchContestList = () => {
             .then(resp => resp.data.contests)
 }
 
+export const fetchNames = (nameIds) => {
+    return axios.get(`/api/names/${nameIds.join(',')}`)
+            .then(resp => resp.data.names)
+}
